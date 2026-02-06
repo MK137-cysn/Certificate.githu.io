@@ -3,94 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxury Certificate - Side Signatures</title>
+    <title>Fixed Frame Certificate</title>
     <link href="https://fonts.googleapis.com/css2?family=Siemreap&family=Cinzel:wght@700&family=Playball&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
         :root { 
-            --gold: linear-gradient(135deg, #bd9354 0%, #ffde59 50%, #bd9354 100%);
-            --navy: #0c1424;
+            --gold-color: #d4af37;
+            --navy-color: #0c1424;
         }
 
-        body { font-family: 'Siemreap', sans-serif; margin: 0; background: #111; color: #fff; overflow-x: hidden; }
+        body { font-family: 'Siemreap', sans-serif; margin: 0; background: #111; color: #fff; }
 
-        /* Navbar តូចបំផុត */
+        /* Navbar */
         .navbar { 
             background: rgba(0,0,0,0.95); height: 38px; 
             display: flex; align-items: center; justify-content: space-between; 
             padding: 0 12px; position: sticky; top: 0; z-index: 2000;
-            border-bottom: 1px solid #bd9354;
+            border-bottom: 1px solid var(--gold-color);
         }
-        .menu-btn { 
-            background: var(--gold); border: none; padding: 3px 12px; 
-            border-radius: 4px; cursor: pointer; color: #000; font-weight: bold; font-size: 10px;
-        }
+        .menu-btn { background: var(--gold-color); border: none; padding: 3px 12px; border-radius: 4px; cursor: pointer; color: #000; font-weight: bold; font-size: 10px; }
 
         /* Ads Telegram */
-        #adsPopup {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); display: flex; align-items: center;
-            justify-content: center; z-index: 3000; backdrop-filter: blur(5px);
-        }
-        .ads-content {
-            background: #fff; color: #333; width: 85%; max-width: 350px;
-            padding: 25px; border-radius: 15px; text-align: center;
-            border: 2px solid #bd9354; box-shadow: 0 0 20px gold;
-        }
-        .tg-link {
-            display: block; background: #0088cc; color: white; text-decoration: none;
-            padding: 10px; margin: 8px 0; border-radius: 8px; font-weight: bold; font-size: 13px;
-        }
-        .close-ads { background: var(--gold); border: none; padding: 10px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        #adsPopup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 3000; backdrop-filter: blur(5px); }
+        .ads-content { background: #fff; color: #333; width: 85%; max-width: 350px; padding: 25px; border-radius: 15px; text-align: center; border: 2px solid var(--gold-color); }
+        .tg-link { display: block; background: #0088cc; color: white; text-decoration: none; padding: 10px; margin: 8px 0; border-radius: 8px; font-weight: bold; font-size: 13px; }
+        .close-ads { background: var(--gold-color); border: none; padding: 10px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 15px; }
 
         /* Editor Panel */
-        .overlay-editor { 
-            position: fixed; top: 38px; left: 0; width: 100%; height: 0; 
-            background: #fff; z-index: 1500; overflow-y: auto; transition: 0.3s;
-            color: #333; padding: 0 20px; box-sizing: border-box;
-        }
+        .overlay-editor { position: fixed; top: 38px; left: 0; width: 100%; height: 0; background: #fff; z-index: 1500; overflow-y: auto; transition: 0.3s; color: #333; padding: 0 20px; box-sizing: border-box; }
         .overlay-editor.active { height: calc(100% - 38px); padding-top: 20px; }
         .input-box { margin-bottom: 12px; }
-        .input-box label { font-size: 11px; font-weight: bold; display: block; margin-bottom: 4px; color: var(--navy); }
-        .input-box input, .input-box select, .input-box textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Siemreap'; font-size: 14px; box-sizing: border-box; }
-        .btn-action { background: var(--navy); color: gold; width: 100%; padding: 14px; border: 1px solid gold; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+        .input-box label { font-size: 11px; font-weight: bold; display: block; margin-bottom: 4px; }
+        .input-box input, .input-box textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Siemreap'; box-sizing: border-box; }
+        .btn-action { background: var(--navy-color); color: gold; width: 100%; padding: 14px; border: 1px solid gold; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
 
-        /* Certificate Styling */
+        /* Certificate Rendering Section */
         .preview-area { display: flex; flex-direction: column; align-items: center; padding: 20px; gap: 40px; }
-        .cert-wrapper { transform: scale(0.23); margin: -300px 0; box-shadow: 0 20px 60px rgba(0,0,0,0.7); }
-        @media (min-width: 800px) { .cert-wrapper { transform: scale(0.6); margin: -150px 0; } }
+        .cert-wrapper { transform: scale(0.23); margin: -300px 0; }
+        @media (min-width: 800px) { .cert-wrapper { transform: scale(0.55); margin: -180px 0; } }
 
-        .cert-paper { width: 1123px; height: 794px; background: var(--p); padding: 30px; box-sizing: border-box; position: relative; }
-        .cert-content { 
-            width: 100%; height: 100%; background: var(--bg); display: flex; 
-            flex-direction: column; align-items: center; justify-content: space-around; 
-            padding: 40px 80px; box-sizing: border-box; position: relative;
-            border: 2px solid var(--a);
+        /* ការរចនាស៊ុមថ្មីដើម្បីកុំឱ្យបាត់ពេល Download */
+        .cert-paper { 
+            width: 1123px; height: 794px; 
+            background: var(--navy-color); 
+            padding: 20px; /* ស៊ុមក្រៅពណ៌ Navy */
+            box-sizing: border-box; 
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .inner-border { position: absolute; top: 12px; left: 12px; right: 12px; bottom: 12px; border: 1px solid var(--a); pointer-events: none; }
+        .gold-frame-outer {
+            width: 100%; height: 100%;
+            background: var(--gold-color);
+            padding: 5px; /* កម្រាស់ខ្សែមាសទី១ */
+            box-sizing: border-box;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .gold-frame-inner {
+            width: 100%; height: 100%;
+            background: var(--navy-color);
+            padding: 8px; /* គម្លាតរវាងខ្សែមាសទាំងពីរ */
+            box-sizing: border-box;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .cert-content { 
+            width: 100%; height: 100%; 
+            background: #fffdf5; /* ផ្ទៃក្នុងវិញ្ញាបនប័ត្រ */
+            border: 3px solid var(--gold-color); /* ខ្សែមាសទី២ */
+            display: flex; flex-direction: column; align-items: center; justify-content: space-around; 
+            padding: 50px 80px; box-sizing: border-box; position: relative;
+        }
         
-        .theme-navy { --p: #0c1424; --a: #d4af37; --bg: #fffdf5; }
-        .theme-red { --p: #5d0000; --a: #ffde59; --bg: #fffafa; }
-        .f-classic { border: 10px double var(--a); }
-        
-        .outName { font-family: 'Playball', cursive; color: var(--p); border-bottom: 4px double var(--a); padding: 0 70px; display: inline-block; margin-top: 10px; }
-        
-        /* កែសម្រួលកន្លែងហត្ថលេខាឱ្យទៅសងខាង */
-        .footer { width: 100%; display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px; }
+        /* Typography */
+        .header-title { font-family: 'Cinzel'; font-size: 85px; color: var(--navy-color); margin: 0; line-height: 1; }
+        .sub-title { color: var(--gold-color); font-weight: bold; letter-spacing: 10px; font-size: 22px; font-family: 'Cinzel'; }
+        .student-name { font-family: 'Playball', cursive; color: var(--navy-color); border-bottom: 4px double var(--gold-color); padding: 0 60px; font-size: 80px; margin: 20px 0; }
+        .desc { font-size: 22px; color: #333; max-width: 850px; text-align: center; line-height: 1.6; font-family: 'Siemreap'; }
+
+        .footer { width: 100%; display: flex; justify-content: space-between; align-items: flex-end; }
         .sign-block { text-align: center; width: 300px; }
-        .line { border-top: 2px solid var(--p); width: 100%; margin-top: 10px; }
-        
-        .seal { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); width: 115px; opacity: 0.9; }
-        .deco-txt { color: var(--a); font-weight: bold; letter-spacing: 10px; font-size: 22px; font-family: 'Cinzel'; }
+        .sign-name { font-weight: bold; font-size: 24px; color: var(--navy-color); }
+        .line { border-top: 2px solid var(--navy-color); width: 100%; margin-top: 8px; }
+        .sign-label { font-size: 14px; color: #888; margin-top: 5px; letter-spacing: 1px; }
+
+        .seal { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: 110px; }
     </style>
 </head>
-<body class="theme-navy">
+<body>
 
     <div id="adsPopup">
         <div class="ads-content">
-            <h2 style="margin:0 0 10px 0; font-size: 18px;">សូមចូលរួមជាមួយយើង</h2>
+            <h2 style="margin:0 0 10px 0;">សូមចូលរួមជាមួយយើង</h2>
             <a href="https://t.me/Lesson_questions12" class="tg-link" target="_blank">📢 Lesson Questions</a>
             <a href="https://t.me/CHANNEL_QUIZ11" class="tg-link" target="_blank">🧠 Channel Quiz</a>
             <a href="https://t.me/I_AM_RA2" class="tg-link" target="_blank">👤 I AM RA2</a>
@@ -100,25 +105,21 @@
 
     <div class="navbar">
         <button class="menu-btn" onclick="toggleMenu()">☰ កែអត្ថបទ</button>
-        <div style="font-family: 'Cinzel'; font-size: 10px; color: gold;">SIDE SIGNATURE MODE</div>
+        <div style="font-family: 'Cinzel'; font-size: 10px; color: gold;">GOLD FRAME FIXED</div>
         <div style="width: 10px;"></div>
     </div>
 
     <div class="overlay-editor" id="overlay">
         <div style="max-width: 450px; margin: 0 auto;">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div class="input-box"><label>ពណ៌</label><select id="inTheme" onchange="autoSave()"><option value="theme-navy">Navy & Gold</option><option value="theme-red">Royal Red</option></select></div>
-                <div class="input-box"><label>ស៊ុម</label><select id="inFrame"><option value="f-classic">Classic Royal</option></select></div>
-            </div>
-            <div class="input-box"><label>ចំណងជើងធំ</label><input type="text" id="inTitle" oninput="autoSave()"></div>
+            <div class="input-box"><label>ចំណងជើង</label><input type="text" id="inTitle" value="CERTIFICATE" oninput="autoSave()"></div>
             <div class="input-box"><label>ឈ្មោះសិស្ស</label><input type="text" id="inName" placeholder="ឈ្មោះសិស្ស..." oninput="autoSave()"></div>
-            <div class="input-box"><label>ខ្លឹមសារ</label><textarea id="inDesc" rows="2" oninput="autoSave()"></textarea></div>
+            <div class="input-box"><label>ខ្លឹមសារ</label><textarea id="inDesc" rows="2" oninput="autoSave()">សម្រាប់ការបញ្ចប់វគ្គសិក្សា "ការរចនាគេហទំព័រ" ដោយជោគជ័យ។</textarea></div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                <div class="input-box"><label>ឈ្មោះប្រធាន (ឆ្វេង)</label><input type="text" id="inMan" oninput="autoSave()"></div>
-                <div class="input-box"><label>ថ្ងៃខែ (ស្តាំ)</label><input type="text" id="inDate" oninput="autoSave()"></div>
+                <div class="input-box"><label>ប្រធាន (ឆ្វេង)</label><input type="text" id="inMan" value="លោក ហ៊ាង សុភ័ក្ត្រ" oninput="autoSave()"></div>
+                <div class="input-box"><label>ថ្ងៃខែ (ស្តាំ)</label><input type="text" id="inDate" value="ថ្ងៃទី ០៦ កុម្ភៈ ២០២៦" oninput="autoSave()"></div>
             </div>
-            <button class="btn-action" onclick="addNewCert()">+ បង្កើតវិញ្ញាបនប័ត្រថ្មី</button>
-            <button class="btn-action" style="background:var(--gold); color:#000; border:none;" onclick="downloadAll()">ទាញយក (HD)</button>
+            <button class="btn-action" onclick="addNewCert()">+ បង្កើតថ្មី</button>
+            <button class="btn-action" style="background:var(--gold-color); color:#000; border:none;" onclick="downloadAll()">ទាញយក (HD PNG)</button>
             <button class="btn-action" style="background:#eee; color:#333; border:none;" onclick="toggleMenu()">បិទ</button>
         </div>
     </div>
@@ -131,36 +132,28 @@
 
         function autoSave() {
             const data = {
-                theme: document.getElementById('inTheme').value,
                 title: document.getElementById('inTitle').value,
                 name: document.getElementById('inName').value,
                 desc: document.getElementById('inDesc').value,
                 man: document.getElementById('inMan').value,
                 date: document.getElementById('inDate').value
             };
-            localStorage.setItem('cert_save_side', JSON.stringify(data));
+            localStorage.setItem('cert_gold_fixed', JSON.stringify(data));
         }
 
         function loadData() {
-            const saved = localStorage.getItem('cert_save_side');
+            const saved = localStorage.getItem('cert_gold_fixed');
             if (saved) {
                 const d = JSON.parse(saved);
-                document.getElementById('inTheme').value = d.theme;
                 document.getElementById('inTitle').value = d.title;
                 document.getElementById('inName').value = d.name;
                 document.getElementById('inDesc').value = d.desc;
                 document.getElementById('inMan').value = d.man;
                 document.getElementById('inDate').value = d.date;
-            } else {
-                document.getElementById('inTitle').value = "CERTIFICATE";
-                document.getElementById('inDesc').value = "សម្រាប់ការបញ្ចប់វគ្គសិក្សា \"ការរចនាគេហទំព័រ\" ដោយជោគជ័យ។";
-                document.getElementById('inMan').value = "លោក ហ៊ាង សុភ័ក្ត្រ";
-                document.getElementById('inDate').value = "ថ្ងៃទី ០៦ ខែកុម្ភៈ ឆ្នាំ២០២៦";
             }
         }
 
         function addNewCert() {
-            const theme = document.getElementById('inTheme').value;
             const title = document.getElementById('inTitle').value;
             const name = document.getElementById('inName').value || "ឈ្មោះសិស្ស";
             const desc = document.getElementById('inDesc').value;
@@ -168,34 +161,33 @@
             const date = document.getElementById('inDate').value;
 
             const html = `
-                <div class="cert-wrapper ${theme} f-classic">
+                <div class="cert-wrapper">
                     <div class="cert-paper" data-name="${name}">
-                        <div class="cert-content">
-                            <div class="inner-border"></div>
-                            <img src="https://cdn-icons-png.flaticon.com/512/610/610333.png" class="seal">
-                            
-                            <div style="text-align:center;">
-                                <h1 style="font-family:'Cinzel'; font-size:85px; color:var(--p); margin:0;">${title}</h1>
-                                <div class="deco-txt">OF EXCELLENCE</div>
-                            </div>
-
-                            <div style="text-align:center;">
-                                <p style="font-size:24px; color:#555; margin:0; font-style: italic;">វិញ្ញាបនប័ត្រនេះផ្ដល់ជូនចំពោះ</p>
-                                <div class="outName" style="font-size:${name.length > 20 ? '55px' : '90px'};">${name}</div>
-                            </div>
-
-                            <div style="font-size:22px; color:#333; max-width:850px; text-align:center; line-height:1.7;">${desc}</div>
-
-                            <div class="footer">
-                                <div class="sign-block">
-                                    <div style="font-weight:bold; font-size:26px; color:var(--p);">${man}</div>
-                                    <div class="line"></div>
-                                    <div style="font-size:14px; color:#888; margin-top:5px; letter-spacing:1px;">SIGNATURE</div>
-                                </div>
-                                <div class="sign-block">
-                                    <div style="font-weight:bold; font-size:24px; color:var(--p);">${date}</div>
-                                    <div class="line"></div>
-                                    <div style="font-size:14px; color:#888; margin-top:5px; letter-spacing:1px;">DATE</div>
+                        <div class="gold-frame-outer">
+                            <div class="gold-frame-inner">
+                                <div class="cert-content">
+                                    <div style="text-align:center;">
+                                        <h1 class="header-title">${title}</h1>
+                                        <div class="sub-title">OF EXCELLENCE</div>
+                                    </div>
+                                    <div style="text-align:center;">
+                                        <p style="font-size:22px; color:#666; margin:0;">វិញ្ញាបនប័ត្រនេះផ្ដល់ជូនចំពោះ</p>
+                                        <div class="student-name">${name}</div>
+                                    </div>
+                                    <div class="desc">${desc}</div>
+                                    <div class="footer">
+                                        <div class="sign-block">
+                                            <div class="sign-name">${man}</div>
+                                            <div class="line"></div>
+                                            <div class="sign-label">SIGNATURE</div>
+                                        </div>
+                                        <div class="sign-block">
+                                            <div class="sign-name">${date}</div>
+                                            <div class="line"></div>
+                                            <div class="sign-label">DATE</div>
+                                        </div>
+                                    </div>
+                                    <img src="https://cdn-icons-png.flaticon.com/512/610/610333.png" class="seal">
                                 </div>
                             </div>
                         </div>
@@ -210,11 +202,20 @@
         async function downloadAll() {
             const certs = document.querySelectorAll('.cert-paper');
             if (certs.length === 0) return;
-            alert("កំពុងបង្កើតរូបភាព HD...");
+            alert("កំពុងបង្កើតរូបភាព HD... សូមរង់ចាំ!");
+            
             for (let c of certs) {
-                const canvas = await html2canvas(c, { scale: 3, useCORS: true });
+                await document.fonts.ready;
+                const canvas = await html2canvas(c, { 
+                    scale: 3, /* កម្រិតច្បាស់ 3x */
+                    useCORS: true,
+                    backgroundColor: null,
+                    scrollX: 0,
+                    scrollY: -window.scrollY
+                });
+                
                 const link = document.createElement('a');
-                link.download = `${c.getAttribute('data-name')}.png`;
+                link.download = `Certificate_${c.getAttribute('data-name')}.png`;
                 link.href = canvas.toDataURL("image/png");
                 link.click();
             }
