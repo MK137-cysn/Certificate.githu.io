@@ -3,190 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Customizable Certificate</title>
-    <link href="https://fonts.googleapis.com/css2?family=Siemreap&family=Cinzel:wght@700&family=Playball&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <title>សាលាតែងសេចក្តី - Ultimate Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root { 
-            --gold-grad: linear-gradient(135deg, #bd9354 0%, #ffde59 50%, #bd9354 100%);
-            --navy: #0c1424;
-            --gold-solid: #d4af37;
+        :root {
+            --main: #4f46e5;
+            --main-light: #818cf8;
+            --dark: #0f172a;
+            --text: #334155;
+            --white: #ffffff;
+            --bg: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.7);
         }
 
-        body { font-family: 'Siemreap', sans-serif; margin: 0; background: #111; color: #fff; }
-
-        /* UI Navigation */
-        .navbar { 
-            background: #000; height: 50px; display: flex; align-items: center; 
-            justify-content: space-between; padding: 0 15px; position: sticky; top: 0; z-index: 2000;
-            border-bottom: 2px solid var(--gold-solid);
+        body {
+            font-family: 'Kantumruy Pro', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            overflow-x: hidden;
         }
-        .menu-btn { background: var(--gold-grad); border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; color: #000; }
 
-        /* Editor Panel - កែបានគ្រប់យ៉ាង */
-        .overlay-editor { 
-            position: fixed; top: 50px; left: -100%; width: 100%; height: calc(100% - 50px); 
-            background: #fff; z-index: 1500; overflow-y: auto; transition: 0.4s ease-in-out; color: #333; padding: 25px; box-sizing: border-box; 
+        /* Navbar */
+        nav {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
-        .overlay-editor.active { left: 0; }
+
+        .logo { 
+            font-weight: 700; font-size: 1.5rem; color: var(--main);
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        /* Hero Section */
+        header {
+            background: radial-gradient(circle at top left, #4f46e5, #312e81);
+            color: white; padding: 120px 20px 80px; text-align: center;
+            border-radius: 0 0 50px 50px;
+        }
+
+        header h1 { font-size: 3rem; margin: 0; letter-spacing: -1px; }
+        header p { opacity: 0.9; font-size: 1.1rem; margin-top: 10px; font-weight: 300; }
+
+        .container { max-width: 1100px; margin: -40px auto 100px; padding: 0 20px; }
+
+        /* Modern Search Bar */
+        .search-wrapper {
+            background: var(--white); border-radius: 20px; padding: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            display: flex; align-items: center; border: 1px solid rgba(0,0,0,0.03);
+            margin-bottom: 30px;
+        }
+
+        .search-wrapper i { padding: 0 20px; color: var(--main); font-size: 1.2rem; }
+
+        .search-wrapper input {
+            border: none; outline: none; width: 100%; padding: 12px;
+            font-size: 1.1rem; font-family: 'Kantumruy Pro'; color: var(--dark);
+        }
+
+        /* Filter Pills */
+        .pills { display: flex; gap: 12px; justify-content: center; margin-bottom: 40px; }
+        .pill {
+            padding: 10px 25px; border-radius: 100px; background: var(--white);
+            cursor: pointer; font-weight: 600; font-size: 0.9rem;
+            transition: 0.3s; border: 1px solid transparent;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .pill.active { background: var(--main); color: white; box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3); }
+
+        /* Essay Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
         
-        @media (min-width: 1000px) {
-            .overlay-editor { width: 450px; left: -450px; border-right: 2px solid gold; }
-            .overlay-editor.active { left: 0; }
+        .card {
+            background: var(--white); border-radius: 30px; padding: 30px;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            border: 1px solid rgba(0,0,0,0.02); display: flex; flex-direction: column;
+            justify-content: space-between; position: relative;
         }
 
-        .editor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .input-box { margin-bottom: 12px; }
-        .input-box label { font-size: 12px; font-weight: bold; display: block; margin-bottom: 4px; color: #555; }
-        .input-box input, .input-box textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Siemreap'; box-sizing: border-box; font-size: 14px; }
-        
-        .btn-action { background: var(--navy); color: gold; width: 100%; padding: 15px; border: 1px solid gold; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 30px 60px rgba(0,0,0,0.08); }
 
-        /* Preview Area */
-        .preview-area { display: flex; flex-direction: column; align-items: center; padding: 20px; width: 100%; }
-        .cert-container { transform-origin: top center; transform: scale(0.3); width: 1123px; height: 794px; margin-bottom: -550px; box-shadow: 0 20px 80px rgba(0,0,0,0.8); }
-
-        @media (min-width: 600px) { .cert-container { transform: scale(0.5); margin-bottom: -380px; } }
-        @media (min-width: 1000px) { .cert-container { transform: scale(0.75); margin-bottom: -180px; } }
-
-        /* --- Certificate Content (Fixed for HD) --- */
-        .cert-paper { width: 1123px; height: 794px; background: var(--navy); padding: 15px; box-sizing: border-box; }
-        .outer-frame { width: 100%; height: 100%; background: var(--gold-grad); padding: 8px; box-sizing: border-box; }
-        .inner-frame { width: 100%; height: 100%; background: var(--navy); padding: 12px; box-sizing: border-box; }
-        .main-content { 
-            width: 100%; height: 100%; background: #fffdf5; border: 3px solid var(--gold-solid);
-            display: flex; flex-direction: column; align-items: center; justify-content: space-between; 
-            padding: 60px 80px; box-sizing: border-box; position: relative; text-align: center;
+        .tag {
+            font-size: 0.75rem; font-weight: 700; color: var(--main);
+            background: #eef2ff; padding: 6px 14px; border-radius: 12px;
+            width: fit-content; margin-bottom: 15px;
         }
 
-        .txt-title { font-family: 'Cinzel'; font-size: 100px; color: var(--navy); margin: 0; line-height: 1; }
-        .txt-subtitle { font-family: 'Cinzel'; font-size: 24px; color: var(--gold-solid); letter-spacing: 12px; font-weight: bold; margin-top: 5px; }
-        .txt-presented { font-size: 24px; color: #666; font-style: italic; margin-top: 30px; }
-        
-        .txt-name { font-family: 'Playball', cursive; color: var(--navy); border-bottom: 3px double var(--gold-solid); padding: 0 60px; font-size: 90px; margin: 20px 0; display: inline-block; }
-        .txt-desc { font-size: 24px; color: #333; max-width: 850px; line-height: 1.6; }
+        .card h3 { font-size: 1.3rem; margin: 0 0 20px 0; line-height: 1.5; color: var(--dark); }
 
-        .footer { width: 100%; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 40px; margin-bottom: 20px; }
-        .sign-block { text-align: center; width: 320px; }
-        .val-sign { font-weight: bold; font-size: 28px; color: var(--navy); margin-bottom: 5px; }
-        .line { border-top: 2px solid var(--navy); width: 100%; }
-        .lbl-sign { font-size: 14px; color: #888; text-transform: uppercase; margin-top: 8px; letter-spacing: 2px; font-weight: bold; }
+        .btn {
+            border: none; padding: 14px 24px; border-radius: 18px; cursor: pointer;
+            font-family: 'Kantumruy Pro'; font-weight: 600; font-size: 0.95rem;
+            transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
 
-        .seal { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); width: 130px; }
+        .btn-primary { background: var(--main); color: white; width: 100%; }
+        .btn-primary:hover { background: #4338ca; box-shadow: 0 10px 20px rgba(79, 70, 229, 0.2); }
+
+        .admin-box { display: flex; gap: 10px; margin-top: 15px; border-top: 1px solid #f1f5f9; padding-top: 15px; }
+        .btn-edit { background: #f8fafc; color: var(--dark); flex: 1; }
+        .btn-delete { background: #fff1f2; color: #e11d48; flex: 1; }
+
+        /* Modal Area */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(10px); z-index: 2000;
+        }
+
+        .modal-content {
+            background: var(--white); max-width: 700px; margin: 60px auto; padding: 40px;
+            border-radius: 40px; position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.2);
+            animation: slideUp 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+        .close-btn { position: absolute; top: 25px; right: 30px; font-size: 1.5rem; cursor: pointer; color: #94a3b8; }
+
+        /* Form */
+        input, textarea, select {
+            width: 100%; padding: 16px; margin-bottom: 15px; border-radius: 15px;
+            border: 1px solid #e2e8f0; font-family: 'Kantumruy Pro'; font-size: 1rem;
+            box-sizing: border-box; transition: 0.3s;
+        }
+        input:focus { border-color: var(--main); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); outline: none; }
     </style>
 </head>
 <body>
 
-    <div class="navbar">
-        <button class="menu-btn" onclick="toggleMenu()">☰ កែសម្រួលគ្រប់យ៉ាង</button>
-        <div style="color:gold; font-size:12px; font-weight:bold;">FULLY CUSTOMIZABLE PRO</div>
-        <div></div>
+<nav>
+    <div class="logo"><i class="fas fa-feather-alt"></i> សាលាតែងសេចក្តី</div>
+    <button class="pill" onclick="loginAdmin()" style="border: 1px solid #e2e8f0;"><i class="fas fa-user-lock"></i> Admin</button>
+</nav>
+
+<header>
+    <h1>សាលាតែងសេចក្តី</h1>
+    <p>បណ្តុំគម្រោងតែងសេចក្តីបែប Premium សម្រាប់សិស្សឆ្នើម</p>
+</header>
+
+<div class="container">
+    <div class="search-wrapper">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search" placeholder="ស្វែងរកវិញ្ញាសាតែងសេចក្តី..." onkeyup="renderEssays()">
     </div>
 
-    <div class="overlay-editor" id="overlay">
-        <h3 style="margin-top:0;">កែអត្ថបទលើវិញ្ញាបនប័ត្រ</h3>
-        
-        <div class="input-box"><label>ចំណងជើងធំ (Title)</label><input type="text" id="editTitle" value="CERTIFICATE" oninput="update()"></div>
-        <div class="input-box"><label>ចំណងជើងរង (Subtitle)</label><input type="text" id="editSub" value="OF EXCELLENCE" oninput="update()"></div>
-        <div class="input-box"><label>ឃ្លាបង្ហាញ (Presented Text)</label><input type="text" id="editPre" value="This Certificate is Proudly Presented to" oninput="update()"></div>
-        <div class="input-box"><label>ឈ្មោះសិស្ស (Student Name)</label><input type="text" id="editName" value="John Doe" oninput="update()"></div>
-        <div class="input-box"><label>ខ្លឹមសារ (Description)</label><textarea id="editDesc" rows="3" oninput="update()">Has successfully completed the Professional Course and has demonstrated exceptional skills.</textarea></div>
-        
-        <div class="editor-grid">
-            <div class="input-box"><label>ឈ្មោះអ្នកចុះហត្ថលេខា</label><input type="text" id="editSign1" value="Heang Sopheak" oninput="update()"></div>
-            <div class="input-box"><label>កាលបរិច្ឆេទ</label><input type="text" id="editSign2" value="Feb 07, 2026" oninput="update()"></div>
-            <div class="input-box"><label>ស្លាក (Label ឆ្វេង)</label><input type="text" id="editLbl1" value="SIGNATURE" oninput="update()"></div>
-            <div class="input-box"><label>ស្លាក (Label ស្តាំ)</label><input type="text" id="editLbl2" value="DATE" oninput="update()"></div>
-        </div>
-
-        <button id="dlBtn" class="btn-action" style="background:var(--gold-grad); color:#000; border:none;" onclick="download()">ទាញយកជា HD PNG</button>
-        <button class="btn-action" style="background:#eee; color:#333; border:none;" onclick="toggleMenu()">បិទ</button>
+    <div class="pills">
+        <div class="pill active" onclick="setFilter('All', this)">ទាំងអស់</div>
+        <div class="pill" onclick="setFilter('Grade 9', this)">ថ្នាក់ទី ៩</div>
+        <div class="pill" onclick="setFilter('Grade 12', this)">ថ្នាក់ទី ១២</div>
     </div>
 
-    <div class="preview-area">
-        <div class="cert-container" id="captureArea">
-            <div class="cert-paper">
-                <div class="outer-frame">
-                    <div class="inner-frame">
-                        <div class="main-content">
-                            <div>
-                                <h1 class="txt-title" id="dispTitle">CERTIFICATE</h1>
-                                <div class="txt-subtitle" id="dispSub">OF EXCELLENCE</div>
-                            </div>
+    <div id="adminPanel" style="display: none; text-align: right; margin-bottom: 25px;">
+        <button class="btn btn-primary" style="display: inline-flex; width: auto;" onclick="openForm('add')"><i class="fas fa-plus-circle"></i> បន្ថែមថ្មី</button>
+        <button class="btn btn-delete" style="display: inline-flex; width: auto; margin-left:10px;" onclick="logoutAdmin()">ចាកចេញ</button>
+    </div>
 
-                            <div>
-                                <p class="txt-presented" id="dispPre">This Certificate is Proudly Presented to</p>
-                                <div class="txt-name" id="dispName">John Doe</div>
-                                <div class="txt-desc" id="dispDesc">Has successfully completed the Professional Course and has demonstrated exceptional skills.</div>
-                            </div>
+    <div class="grid" id="essayGrid"></div>
+</div>
 
-                            <div class="footer">
-                                <div class="sign-block">
-                                    <div class="val-sign" id="dispSign1">Heang Sopheak</div>
-                                    <div class="line"></div>
-                                    <div class="lbl-sign" id="dispLbl1">SIGNATURE</div>
-                                </div>
-                                <div class="sign-block">
-                                    <div class="val-sign" id="dispSign2">Feb 07, 2026</div>
-                                    <div class="line"></div>
-                                    <div class="lbl-sign" id="dispLbl2">DATE</div>
-                                </div>
-                            </div>
-                            <img src="https://cdn-icons-png.flaticon.com/512/610/610333.png" class="seal">
-                        </div>
-                    </div>
+<div id="mainModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle" style="color: var(--dark); font-size: 1.6rem; margin-top: 0;"></h2>
+        <hr style="border: 0; height: 1px; background: #f1f5f9; margin: 20px 0;">
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<script>
+    let essays = JSON.parse(localStorage.getItem('ultraEssays')) || [];
+    let isAdmin = false;
+    let filter = 'All';
+    let editId = null;
+
+    function renderEssays() {
+        const grid = document.getElementById('essayGrid');
+        grid.innerHTML = '';
+        const searchVal = document.getElementById('search').value.toLowerCase();
+
+        const filtered = essays.filter(e => {
+            const mSearch = e.title.toLowerCase().includes(searchVal);
+            const mFilter = filter === 'All' || e.grade === filter;
+            return mSearch && mFilter;
+        });
+
+        filtered.forEach(e => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div>
+                    <div class="tag">${e.grade === 'Grade 9' ? 'ថ្នាក់ទី ៩' : 'ថ្នាក់ទី ១២'}</div>
+                    <h3>${e.title}</h3>
                 </div>
-            </div>
-        </div>
-    </div>
+                <div>
+                    <button class="btn btn-primary" onclick="viewEssay(${e.id})"><i class="fas fa-book-reader"></i> មើលគម្រោង</button>
+                    ${isAdmin ? `
+                        <div class="admin-box">
+                            <button class="btn btn-edit" onclick="openForm('edit', ${e.id})"><i class="fas fa-pen"></i></button>
+                            <button class="btn btn-delete" onclick="deleteEssay(${e.id})"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
 
-    <script>
-        function toggleMenu() { document.getElementById('overlay').classList.toggle('active'); }
+    function setFilter(val, el) {
+        filter = val;
+        document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+        el.classList.add('active');
+        renderEssays();
+    }
 
-        // មុខងារកែតាម Real-time
-        function update() {
-            document.getElementById('dispTitle').innerText = document.getElementById('editTitle').value;
-            document.getElementById('dispSub').innerText = document.getElementById('editSub').value;
-            document.getElementById('dispPre').innerText = document.getElementById('editPre').value;
-            document.getElementById('dispName').innerText = document.getElementById('editName').value;
-            document.getElementById('dispDesc').innerText = document.getElementById('editDesc').value;
-            document.getElementById('dispSign1').innerText = document.getElementById('editSign1').value;
-            document.getElementById('dispSign2').innerText = document.getElementById('editSign2').value;
-            document.getElementById('dispLbl1').innerText = document.getElementById('editLbl1').value;
-            document.getElementById('dispLbl2').innerText = document.getElementById('editLbl2').value;
+    function viewEssay(id) {
+        const e = essays.find(x => x.id === id);
+        document.getElementById('modalTitle').innerText = e.title;
+        document.getElementById('modalBody').innerHTML = `
+            <div style="line-height: 1.8; color: #475569; white-space: pre-line; margin-bottom: 25px; font-size: 1.05rem;">${e.content}</div>
+            <button class="btn btn-primary" onclick="copyText(\`${e.content.replace(/`/g, "'")}\`)"><i class="fas fa-copy"></i> ចម្លងគម្រោងតែង</button>
+        `;
+        document.getElementById('mainModal').style.display = 'block';
+    }
 
-            // បង្រួមអក្សរឈ្មោះបើវែងពេក
-            const nameDiv = document.getElementById('dispName');
-            const len = nameDiv.innerText.length;
-            nameDiv.style.fontSize = len > 20 ? (len > 30 ? '50px' : '70px') : '90px';
+    function copyText(txt) {
+        navigator.clipboard.writeText(txt);
+        alert("ចម្លងបានជោគជ័យ!");
+    }
+
+    function loginAdmin() {
+        if (prompt("Password:") === "0319995568") {
+            isAdmin = true;
+            document.getElementById('adminPanel').style.display = 'block';
+            renderEssays();
         }
+    }
 
-        async function download() {
-            const area = document.querySelector('.cert-paper');
-            const btn = document.getElementById('dlBtn');
-            btn.innerText = "⏳ ផ្អាកសិន... កំពុងបង្កើតរូបភាព HD";
-            btn.disabled = true;
+    function logoutAdmin() {
+        isAdmin = false;
+        document.getElementById('adminPanel').style.display = 'none';
+        renderEssays();
+    }
 
-            await document.fonts.ready;
-            
-            // បច្ចេកទេសពិសេសដើម្បីកុំឱ្យវេញអក្សរ
-            const canvas = await html2canvas(area, {
-                scale: 3, 
-                useCORS: true,
-                windowWidth: 1200, 
-                logging: false,
-                letterRendering: true
-            });
+    function openForm(mode, id = null) {
+        editId = id;
+        const e = id ? essays.find(x => x.id === id) : {title: '', content: '', grade: 'Grade 9'};
+        document.getElementById('modalTitle').innerText = mode === 'add' ? "បន្ថែមថ្មី" : "កែសម្រួល";
+        document.getElementById('modalBody').innerHTML = `
+            <select id="fGrade"><option value="Grade 9" ${e.grade === 'Grade 9' ? 'selected' : ''}>ថ្នាក់ទី ៩</option><option value="Grade 12" ${e.grade === 'Grade 12' ? 'selected' : ''}>ថ្នាក់ទី ១២</option></select>
+            <input type="text" id="fTitle" value="${e.title}" placeholder="ចំណងជើង">
+            <textarea id="fContent" rows="10" placeholder="ខ្លឹមសារគម្រោង...">${e.content}</textarea>
+            <button class="btn btn-primary" onclick="save()">រក្សាទុក</button>
+        `;
+        document.getElementById('mainModal').style.display = 'block';
+    }
 
-            const link = document.createElement('a');
-            link.download = `Certificate_${document.getElementById('editName').value}.png`;
-            link.href = canvas.toDataURL("image/png", 1.0);
-            link.click();
+    function save() {
+        const title = document.getElementById('fTitle').value;
+        const content = document.getElementById('fContent').value;
+        const grade = document.getElementById('fGrade').value;
+        if (!title || !content) return;
 
-            btn.innerText = "ទាញយកជា HD PNG";
-            btn.disabled = false;
+        if (editId) {
+            const i = essays.findIndex(x => x.id === editId);
+            essays[i] = { ...essays[i], title, content, grade };
+        } else {
+            essays.push({ id: Date.now(), title, content, grade });
         }
-    </script>
+        localStorage.setItem('ultraEssays', JSON.stringify(essays));
+        closeModal();
+        renderEssays();
+    }
+
+    function deleteEssay(id) {
+        if (confirm("លុបមែនទេ?")) {
+            essays = essays.filter(x => x.id !== id);
+            localStorage.setItem('ultraEssays', JSON.stringify(essays));
+            renderEssays();
+        }
+    }
+
+    function closeModal() { document.getElementById('mainModal').style.display = 'none'; }
+    window.onclick = (ev) => { if (ev.target.className === 'modal') closeModal(); }
+
+    renderEssays();
+</script>
 </body>
 </html>
+
