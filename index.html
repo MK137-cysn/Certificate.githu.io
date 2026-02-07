@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxury Certificate PRO - Stable Download</title>
-    <link href="https://fonts.googleapis.com/css2?family=Siemreap&family=Cinzel:wght@700&family=Playball&display=swap" rel="stylesheet">
+    <title>Ultimate Customizable Certificate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Siemreap&family=Cinzel:wght@700&family=Playball&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <style>
@@ -16,7 +16,7 @@
 
         body { font-family: 'Siemreap', sans-serif; margin: 0; background: #111; color: #fff; }
 
-        /* Navbar */
+        /* UI Navigation */
         .navbar { 
             background: #000; height: 50px; display: flex; align-items: center; 
             justify-content: space-between; padding: 0 15px; position: sticky; top: 0; z-index: 2000;
@@ -24,217 +24,169 @@
         }
         .menu-btn { background: var(--gold-grad); border: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; color: #000; }
 
-        /* Ads Popup */
-        #adsPopup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 5000; backdrop-filter: blur(8px); }
-        .ads-content { background: #fff; color: #333; width: 90%; max-width: 400px; padding: 30px; border-radius: 20px; text-align: center; border: 3px solid var(--gold-solid); }
-        .tg-link { display: block; background: #0088cc; color: white; text-decoration: none; padding: 12px; margin: 10px 0; border-radius: 10px; font-weight: bold; }
-        .close-ads { background: var(--gold-grad); border: none; padding: 12px 40px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 20px; }
-
-        /* Editor Panel (Responsive) */
+        /* Editor Panel - កែបានគ្រប់យ៉ាង */
         .overlay-editor { 
             position: fixed; top: 50px; left: -100%; width: 100%; height: calc(100% - 50px); 
-            background: #fff; z-index: 1500; overflow-y: auto; transition: 0.4s; color: #333; padding: 25px; box-sizing: border-box; 
+            background: #fff; z-index: 1500; overflow-y: auto; transition: 0.4s ease-in-out; color: #333; padding: 25px; box-sizing: border-box; 
         }
         .overlay-editor.active { left: 0; }
         
         @media (min-width: 1000px) {
-            .overlay-editor { width: 400px; left: -400px; border-right: 2px solid gold; }
+            .overlay-editor { width: 450px; left: -450px; border-right: 2px solid gold; }
             .overlay-editor.active { left: 0; }
         }
 
-        .input-box { margin-bottom: 15px; }
-        .input-box label { font-size: 13px; font-weight: bold; display: block; margin-bottom: 5px; color: var(--navy); }
-        .input-box input, .input-box textarea { width: 100%; padding: 12px; border: 1.5px solid #ccc; border-radius: 10px; font-family: 'Siemreap'; box-sizing: border-box; }
-        .btn-action { background: var(--navy); color: gold; width: 100%; padding: 15px; border: 1px solid gold; border-radius: 10px; font-weight: bold; cursor: pointer; margin-bottom: 12px; }
+        .editor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .input-box { margin-bottom: 12px; }
+        .input-box label { font-size: 12px; font-weight: bold; display: block; margin-bottom: 4px; color: #555; }
+        .input-box input, .input-box textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-family: 'Siemreap'; box-sizing: border-box; font-size: 14px; }
+        
+        .btn-action { background: var(--navy); color: gold; width: 100%; padding: 15px; border: 1px solid gold; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
 
         /* Preview Area */
-        .preview-area { display: flex; flex-direction: column; align-items: center; padding: 20px; width: 100%; box-sizing: border-box; }
-        
-        .cert-item { margin-bottom: 40px; display: flex; flex-direction: column; align-items: center; width: 100%; }
-        
-        /* Container បង្រួមសម្រាប់មើលលើអេក្រង់ */
-        .cert-container-resizer { 
-            width: 100%; overflow: hidden; display: flex; justify-content: center;
-        }
+        .preview-area { display: flex; flex-direction: column; align-items: center; padding: 20px; width: 100%; }
+        .cert-container { transform-origin: top center; transform: scale(0.3); width: 1123px; height: 794px; margin-bottom: -550px; box-shadow: 0 20px 80px rgba(0,0,0,0.8); }
 
-        .cert-wrapper { 
-            transform-origin: top center;
-            box-shadow: 0 20px 80px rgba(0,0,0,0.8);
-            transform: scale(0.3); 
-            width: 1123px; height: 794px;
-            margin-bottom: -550px;
-        }
+        @media (min-width: 600px) { .cert-container { transform: scale(0.5); margin-bottom: -380px; } }
+        @media (min-width: 1000px) { .cert-container { transform: scale(0.75); margin-bottom: -180px; } }
 
-        @media (min-width: 600px) { .cert-wrapper { transform: scale(0.5); margin-bottom: -380px; } }
-        @media (min-width: 1000px) { .cert-wrapper { transform: scale(0.7); margin-bottom: -220px; } }
-
-        /* --- Certificate Content Design --- */
-        .cert-paper { 
-            width: 1123px; height: 794px; background: var(--navy); 
-            padding: 15px; box-sizing: border-box; 
-            display: flex; align-items: center; justify-content: center;
-        }
-        .frame-2 { width: 100%; height: 100%; background: var(--gold-grad); padding: 8px; box-sizing: border-box; }
-        .frame-3 { width: 100%; height: 100%; background: var(--navy); padding: 12px; box-sizing: border-box; }
-        
-        .cert-content { 
+        /* --- Certificate Content (Fixed for HD) --- */
+        .cert-paper { width: 1123px; height: 794px; background: var(--navy); padding: 15px; box-sizing: border-box; }
+        .outer-frame { width: 100%; height: 100%; background: var(--gold-grad); padding: 8px; box-sizing: border-box; }
+        .inner-frame { width: 100%; height: 100%; background: var(--navy); padding: 12px; box-sizing: border-box; }
+        .main-content { 
             width: 100%; height: 100%; background: #fffdf5; border: 3px solid var(--gold-solid);
             display: flex; flex-direction: column; align-items: center; justify-content: space-between; 
-            padding: 70px 80px; box-sizing: border-box; position: relative;
+            padding: 60px 80px; box-sizing: border-box; position: relative; text-align: center;
         }
 
-        .cert-title { font-family: 'Cinzel'; font-size: 110px; color: var(--navy); margin: 0; line-height: 1; }
-        .deco-txt { color: var(--gold-solid); font-weight: bold; letter-spacing: 12px; font-size: 24px; font-family: 'Cinzel'; margin-top: 5px; }
-
-        .student-name { font-family: 'Playball', cursive; color: var(--navy); border-bottom: 4px double var(--gold-solid); padding: 0 80px; font-size: 95px; margin: 30px 0; display: inline-block; white-space: nowrap; line-height: 1.2; }
-        .desc { font-size: 26px; color: #333; max-width: 850px; text-align: center; line-height: 1.8; font-family: 'Siemreap'; }
+        .txt-title { font-family: 'Cinzel'; font-size: 100px; color: var(--navy); margin: 0; line-height: 1; }
+        .txt-subtitle { font-family: 'Cinzel'; font-size: 24px; color: var(--gold-solid); letter-spacing: 12px; font-weight: bold; margin-top: 5px; }
+        .txt-presented { font-size: 24px; color: #666; font-style: italic; margin-top: 30px; }
+        
+        .txt-name { font-family: 'Playball', cursive; color: var(--navy); border-bottom: 3px double var(--gold-solid); padding: 0 60px; font-size: 90px; margin: 20px 0; display: inline-block; }
+        .txt-desc { font-size: 24px; color: #333; max-width: 850px; line-height: 1.6; }
 
         .footer { width: 100%; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 40px; margin-bottom: 20px; }
-        .sign-block { text-align: center; width: 350px; }
-        .sign-name { font-weight: bold; font-size: 30px; color: var(--navy); line-height: 1.4; }
-        .line { border-top: 2.5px solid var(--navy); width: 100%; margin-top: 10px; }
-        .sign-label { font-size: 16px; color: #888; margin-top: 8px; letter-spacing: 2px; }
-        
+        .sign-block { text-align: center; width: 320px; }
+        .val-sign { font-weight: bold; font-size: 28px; color: var(--navy); margin-bottom: 5px; }
+        .line { border-top: 2px solid var(--navy); width: 100%; }
+        .lbl-sign { font-size: 14px; color: #888; text-transform: uppercase; margin-top: 8px; letter-spacing: 2px; font-weight: bold; }
+
         .seal { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); width: 130px; }
     </style>
 </head>
 <body>
 
-    <div id="adsPopup">
-        <div class="ads-content">
-            <h2 style="margin:0 0 15px 0;">សូមចូលរួមជាមួយយើង</h2>
-            <a href="https://t.me/Lesson_questions12" class="tg-link" target="_blank">📢 Lesson Questions</a>
-            <a href="https://t.me/CHANNEL_QUIZ11" class="tg-link" target="_blank">🧠 Channel Quiz</a>
-            <a href="https://t.me/I_AM_RA2" class="tg-link" target="_blank">👤 I AM RA2</a>
-            <button class="close-ads" onclick="closeAds()">យល់ព្រមប្រើប្រាស់</button>
-        </div>
-    </div>
-
     <div class="navbar">
-        <button class="menu-btn" onclick="toggleMenu()">☰ កែអត្ថបទ</button>
-        <div style="font-family: 'Cinzel'; color: gold; font-size: 12px; font-weight: bold;">PREMIUM CERTIFICATE</div>
-        <div style="width: 20px;"></div>
+        <button class="menu-btn" onclick="toggleMenu()">☰ កែសម្រួលគ្រប់យ៉ាង</button>
+        <div style="color:gold; font-size:12px; font-weight:bold;">FULLY CUSTOMIZABLE PRO</div>
+        <div></div>
     </div>
 
     <div class="overlay-editor" id="overlay">
-        <h3 style="margin-top: 0;">កែសម្រួលព័ត៌មាន</h3>
-        <div class="input-box"><label>ឈ្មោះសិស្ស</label><input type="text" id="inName" placeholder="ឈ្មោះដែលត្រូវបង្ហាញ..." oninput="autoSave()"></div>
-        <div class="input-box"><label>ខ្លឹមសារអត្ថបទ</label><textarea id="inDesc" rows="3" oninput="autoSave()">សម្រាប់ការបញ្ចប់វគ្គសិក្សា "ការរចនាគេហទំព័រ" ដោយជោគជ័យ និងទទួលបាននិទ្ទេសល្អប្រសើរ។</textarea></div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <div class="input-box"><label>ឈ្មោះប្រធាន</label><input type="text" id="inMan" value="លោក ហ៊ាង សុភ័ក្ត្រ" oninput="autoSave()"></div>
-            <div class="input-box"><label>ថ្ងៃ ខែ ឆ្នាំ</label><input type="text" id="inDate" value="ថ្ងៃទី ០៧ ខែកុម្ភៈ ឆ្នាំ២០២៦" oninput="autoSave()"></div>
+        <h3 style="margin-top:0;">កែអត្ថបទលើវិញ្ញាបនប័ត្រ</h3>
+        
+        <div class="input-box"><label>ចំណងជើងធំ (Title)</label><input type="text" id="editTitle" value="CERTIFICATE" oninput="update()"></div>
+        <div class="input-box"><label>ចំណងជើងរង (Subtitle)</label><input type="text" id="editSub" value="OF EXCELLENCE" oninput="update()"></div>
+        <div class="input-box"><label>ឃ្លាបង្ហាញ (Presented Text)</label><input type="text" id="editPre" value="This Certificate is Proudly Presented to" oninput="update()"></div>
+        <div class="input-box"><label>ឈ្មោះសិស្ស (Student Name)</label><input type="text" id="editName" value="John Doe" oninput="update()"></div>
+        <div class="input-box"><label>ខ្លឹមសារ (Description)</label><textarea id="editDesc" rows="3" oninput="update()">Has successfully completed the Professional Course and has demonstrated exceptional skills.</textarea></div>
+        
+        <div class="editor-grid">
+            <div class="input-box"><label>ឈ្មោះអ្នកចុះហត្ថលេខា</label><input type="text" id="editSign1" value="Heang Sopheak" oninput="update()"></div>
+            <div class="input-box"><label>កាលបរិច្ឆេទ</label><input type="text" id="editSign2" value="Feb 07, 2026" oninput="update()"></div>
+            <div class="input-box"><label>ស្លាក (Label ឆ្វេង)</label><input type="text" id="editLbl1" value="SIGNATURE" oninput="update()"></div>
+            <div class="input-box"><label>ស្លាក (Label ស្តាំ)</label><input type="text" id="editLbl2" value="DATE" oninput="update()"></div>
         </div>
-        <button class="btn-action" onclick="addNewCert()">+ បង្កើតវិញ្ញាបនប័ត្រ</button>
-        <button id="dlBtn" class="btn-action" style="background:var(--gold-grad); color:#000; border:none;" onclick="downloadAll()">ទាញយកទាំងអស់ (HD PNG)</button>
-        <button class="btn-action" style="background:#eee; color: #333;" onclick="toggleMenu()">បិទ</button>
+
+        <button id="dlBtn" class="btn-action" style="background:var(--gold-grad); color:#000; border:none;" onclick="download()">ទាញយកជា HD PNG</button>
+        <button class="btn-action" style="background:#eee; color:#333; border:none;" onclick="toggleMenu()">បិទ</button>
     </div>
 
-    <div class="preview-area" id="certList"></div>
+    <div class="preview-area">
+        <div class="cert-container" id="captureArea">
+            <div class="cert-paper">
+                <div class="outer-frame">
+                    <div class="inner-frame">
+                        <div class="main-content">
+                            <div>
+                                <h1 class="txt-title" id="dispTitle">CERTIFICATE</h1>
+                                <div class="txt-subtitle" id="dispSub">OF EXCELLENCE</div>
+                            </div>
+
+                            <div>
+                                <p class="txt-presented" id="dispPre">This Certificate is Proudly Presented to</p>
+                                <div class="txt-name" id="dispName">John Doe</div>
+                                <div class="txt-desc" id="dispDesc">Has successfully completed the Professional Course and has demonstrated exceptional skills.</div>
+                            </div>
+
+                            <div class="footer">
+                                <div class="sign-block">
+                                    <div class="val-sign" id="dispSign1">Heang Sopheak</div>
+                                    <div class="line"></div>
+                                    <div class="lbl-sign" id="dispLbl1">SIGNATURE</div>
+                                </div>
+                                <div class="sign-block">
+                                    <div class="val-sign" id="dispSign2">Feb 07, 2026</div>
+                                    <div class="line"></div>
+                                    <div class="lbl-sign" id="dispLbl2">DATE</div>
+                                </div>
+                            </div>
+                            <img src="https://cdn-icons-png.flaticon.com/512/610/610333.png" class="seal">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         function toggleMenu() { document.getElementById('overlay').classList.toggle('active'); }
-        function closeAds() { document.getElementById('adsPopup').style.display = 'none'; }
 
-        function autoSave() {
-            const data = {
-                name: document.getElementById('inName').value,
-                desc: document.getElementById('inDesc').value,
-                man: document.getElementById('inMan').value,
-                date: document.getElementById('inDate').value
-            };
-            localStorage.setItem('cert_ultimate_v1', JSON.stringify(data));
+        // មុខងារកែតាម Real-time
+        function update() {
+            document.getElementById('dispTitle').innerText = document.getElementById('editTitle').value;
+            document.getElementById('dispSub').innerText = document.getElementById('editSub').value;
+            document.getElementById('dispPre').innerText = document.getElementById('editPre').value;
+            document.getElementById('dispName').innerText = document.getElementById('editName').value;
+            document.getElementById('dispDesc').innerText = document.getElementById('editDesc').value;
+            document.getElementById('dispSign1').innerText = document.getElementById('editSign1').value;
+            document.getElementById('dispSign2').innerText = document.getElementById('editSign2').value;
+            document.getElementById('dispLbl1').innerText = document.getElementById('editLbl1').value;
+            document.getElementById('dispLbl2').innerText = document.getElementById('editLbl2').value;
+
+            // បង្រួមអក្សរឈ្មោះបើវែងពេក
+            const nameDiv = document.getElementById('dispName');
+            const len = nameDiv.innerText.length;
+            nameDiv.style.fontSize = len > 20 ? (len > 30 ? '50px' : '70px') : '90px';
         }
 
-        function loadData() {
-            const saved = localStorage.getItem('cert_ultimate_v1');
-            if (saved) {
-                const d = JSON.parse(saved);
-                document.getElementById('inName').value = d.name;
-                document.getElementById('inDesc').value = d.desc;
-                document.getElementById('inMan').value = d.man;
-                document.getElementById('inDate').value = d.date;
-            }
-        }
-
-        function addNewCert() {
-            const name = document.getElementById('inName').value || "ឈ្មោះសិស្ស";
-            const desc = document.getElementById('inDesc').value;
-            const man = document.getElementById('inMan').value;
-            const date = document.getElementById('inDate').value;
-
-            const html = `
-                <div class="cert-item">
-                    <button style="margin-bottom:15px; color:#fff; background:#e74c3c; border:none; padding:8px 20px; border-radius:6px; cursor:pointer;" onclick="this.parentElement.remove()">លុបចេញ</button>
-                    <div class="cert-container-resizer">
-                        <div class="cert-wrapper">
-                            <div class="cert-paper" data-name="${name}">
-                                <div class="frame-2">
-                                    <div class="frame-3">
-                                        <div class="cert-content">
-                                            <div style="text-align:center;">
-                                                <h1 class="cert-title">CERTIFICATE</h1>
-                                                <div class="deco-txt">OF EXCELLENCE</div>
-                                            </div>
-                                            <div style="text-align:center;">
-                                                <p style="font-size:28px; color:#666; margin:0; font-style:italic;">This Certificate is Proudly Presented to</p>
-                                                <div class="student-name" style="font-size:${name.length > 20 ? '65px' : '95px'};">${name}</div>
-                                            </div>
-                                            <div class="desc">${desc}</div>
-                                            <div class="footer">
-                                                <div class="sign-block">
-                                                    <div class="sign-name">${man}</div>
-                                                    <div class="line"></div>
-                                                    <div class="sign-label">SIGNATURE</div>
-                                                </div>
-                                                <div class="sign-block">
-                                                    <div class="sign-name">${date}</div>
-                                                    <div class="line"></div>
-                                                    <div class="sign-label">DATE</div>
-                                                </div>
-                                            </div>
-                                            <img src="https://cdn-icons-png.flaticon.com/512/610/610333.png" class="seal">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-            document.getElementById('certList').insertAdjacentHTML('afterbegin', html);
-            if(window.innerWidth < 1000) toggleMenu();
-        }
-
-        async function downloadAll() {
-            const certs = document.querySelectorAll('.cert-paper');
-            if (certs.length === 0) return;
+        async function download() {
+            const area = document.querySelector('.cert-paper');
             const btn = document.getElementById('dlBtn');
-            btn.innerText = "⏳ កំពុងដំណើរការ...";
+            btn.innerText = "⏳ ផ្អាកសិន... កំពុងបង្កើតរូបភាព HD";
             btn.disabled = true;
+
+            await document.fonts.ready;
             
-            for (let c of certs) {
-                // បង្ខំឱ្យ Browser load font ឱ្យរួចរាល់
-                await document.fonts.ready;
-                
-                const canvas = await html2canvas(c, { 
-                    scale: 3, // បង្កើនកម្រិតច្បាស់
-                    useCORS: true,
-                    windowWidth: 1200, // បង្ខំទំហំ Browser និម្មិតឱ្យធំដើម្បីកុំឱ្យអក្សរវេញ
-                    logging: false,
-                    backgroundColor: null,
-                    scrollX: 0,
-                    scrollY: -window.scrollY
-                });
-                
-                const link = document.createElement('a');
-                link.download = `Cert_${c.getAttribute('data-name').replace(/\s+/g, '_')}.png`;
-                link.href = canvas.toDataURL("image/png", 1.0);
-                link.click();
-            }
-            btn.innerText = "ទាញយកទាំងអស់ (HD PNG)";
+            // បច្ចេកទេសពិសេសដើម្បីកុំឱ្យវេញអក្សរ
+            const canvas = await html2canvas(area, {
+                scale: 3, 
+                useCORS: true,
+                windowWidth: 1200, 
+                logging: false,
+                letterRendering: true
+            });
+
+            const link = document.createElement('a');
+            link.download = `Certificate_${document.getElementById('editName').value}.png`;
+            link.href = canvas.toDataURL("image/png", 1.0);
+            link.click();
+
+            btn.innerText = "ទាញយកជា HD PNG";
             btn.disabled = false;
         }
-
-        window.onload = () => { loadData(); addNewCert(); };
     </script>
 </body>
 </html>
